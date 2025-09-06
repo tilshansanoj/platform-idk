@@ -18,8 +18,10 @@ class Settings(BaseSettings):
     db_user: str = os.getenv("DB_USER", "postgres")
     db_password: str = os.getenv("DB_PASSWORD", "password")
     
-    # CORS Configuration
-    cors_origins: List[str] = os.getenv("CORS_ORIGINS", "http://localhost:3000").split(",")
+    # CORS Configuration - Don't define as a field, use a method instead
+    def get_cors_origins(self) -> List[str]:
+        cors_str = os.getenv("CORS_ORIGINS", "http://localhost:3000")
+        return [origin.strip() for origin in cors_str.split(",") if origin.strip()]
     
     # Database URL
     @property

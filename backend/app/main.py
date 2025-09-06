@@ -6,7 +6,7 @@ from typing import List
 import logging
 
 from .config import settings
-from .database import get_db, init_db
+from .databases import get_db, init_db
 from .models import Deployment
 from .schemas import DeploymentCreate, Deployment, DeploymentResponse, HealthCheck
 from .aws import get_ec2_client, create_security_group
@@ -21,7 +21,7 @@ app = FastAPI(title="EC2 Deployer API", version="1.0.0")
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origins,
+    allow_origins=settings.get_cors_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
